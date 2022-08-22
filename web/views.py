@@ -14,7 +14,7 @@ from rest_framework import status
 from django.views.decorators.csrf import csrf_exempt
 # from django.views.decorators import method_decorator
 from django.utils.decorators import method_decorator
-from django import views
+from django.views import View
 # from ..response import HttpRespond
 # from views import view
 # Create your views here.
@@ -116,24 +116,27 @@ def student(request):
 # for class based view 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class studentClass(views):
+class studentClass(View):
     def get(self, request, *args, **kwargs):
-        req_payoad = request.body
-        stream = io.BytesIO(req_payoad)
-        python_data = JSONParser().parse(stream)
-        id = python_data.get('id', None)
-        if id is not None:
-            student = Student.objects.get(id= id)
-            serializer = StudentSerializer(student)
-            studentJson = JSONRenderer().render(serializer.data)
-            return HttpResponse(studentJson, content_type="application\json")
-        else:
-            student = Student.objects.all()
-            serializer = StudentSerializer(student, many=True)
-            studentJson = JSONRenderer().render(serializer.data)
-            return HttpResponse(studentJson, content_type="application\json")
-    
-    # degf post(), def put(), def delete()
-
-        
+        # req_payoad = request.body
+        print(request.body)
+        res = {'msg' : 'there'}
+        studentJson = JSONRenderer().render(res)
+        return HttpResponse(studentJson, content_type="application\json")
+        # stream = 
+#         python_data = JSONParser().parse(io.BytesIO(request.body))
+#         print(python_data)
+#         id = python_data.get('id', None)
+#         if id is not None:
+#             student = Student.objects.get(id= id)
+#             serializer = StudentSerializer(student)
+#             studentJson = JSONRenderer().render(serializer.data)
+#             return HttpResponse(studentJson, content_type="application\json")
+#         else:
+#             student = Student.objects.all()
+#             serializer = StudentSerializer(student, many=True)
+#             studentJson = JSONRenderer().render(serializer.data)
+#             # studentJson = JSONRenderer().render(serializer.data)
+#             return HttpResponse(studentJson, content_type="application\json")
+# #           degf post(), def put(), def delete()
 
